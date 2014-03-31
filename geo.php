@@ -1,44 +1,48 @@
 <?php
 
-function test(){
- $url = $_POST['user'];
-   if (filter_var($url, FILTER_VALIDATE_URL)) {
-  echo "Sto aprendo ". $url." e dalla prima colonna con gli indirizzi effettuo un geocoding usando http://open.mapquestapi.com che interroga OpenStreetMap<br>";
-$file_handle = fopen( $url, "r");
-$array=array(); 
-while (!feof($file_handle)) {
-  
+function geocode($url) {
+  echo "Sto aprendo ".$url." e dalla prima colonna con gli indirizzi effettuo un geocoding usando http://open.mapquestapi.com che interroga OpenStreetMap<br>";
+  $file_handle = fopen($url, "r");
+  $array=array();
+  while (!feof($file_handle)) {
+    $line = fgets($file_handle);
+    $line1 = "&location=".$line;
+    $array=array($line1);
+    // echo $array[0];
 
- $line = fgets($file_handle);
- $line1 = "&location=".$line;
- $array=array($line1); 
+    echo "<br>";
+    //$string= "&key=Fmjtd%7Cluur2la7n9%2C8w%3Do5-9a221u";
+    //echo $line.$string;
 
+    $string="http://open.mapquestapi.com/geocoding/v1/batch?key=Fmjtd%7Cluur2la7n9%2C8w%3Do5-9a221u";
+    $string=$string.$line1;
+    $string=str_replace(' ','+',$string);
+    $json = file_get_contents($string);
+    //echo $string;
 
-echo "<br>";
+    $jsonArr = json_decode($json);
 
-// registrarsi su open.mapquestapi.com e inserire la propria key nella riga qui sotto
-$string="http://open.mapquestapi.com/geocoding/v1/batch?key=Fmjtd%7Cluur2la7n9%2C8w%3Do5-9a221u";
+    $lat1 = $jsonArr->results[0]->locations[0]->latLng->lat;
+    $lon1 = $jsonArr->results[0]->locations[0]->latLng->lng;
 
-$string=$string.$line1;
-$string=str_replace(' ','+',$string);
-$json = file_get_contents($string);
-//echo $string;
+    echo $line.",".$lat1.",".$lon1;
 
-$jsonArr = json_decode($json);
+    //header("Location: http://open.mapquestapi.com/geocoding/v1/batch?".$string.$array[0]);
 
-$lat1 = $jsonArr->results[0]->locations[0]->latLng->lat;
-$lon1 = $jsonArr->results[0]->locations[0]->latLng->lng;
-
-echo $line.",".$lat1.",".$lon1;
-
-
+    //echo $array[0];
+  }
+  fclose($file_handle);
 }
 
-fclose($file_handle);
-} 
-}    
-if(isset($_POST[user])){
-test();
+
+if (isset($_POST['user'])){
+  $url = filter_var($_POST['user'], FILTER_VALIDATE_URL);
+  if ($url) {
+    geocode();
+  }
+  else {
+    $error = 'Sorry, this is not a valid url.';
+  }
 }
 
 ?>
@@ -50,13 +54,17 @@ test();
 </head>
     <body>
 <br>
-<form action="<?php echo $PHP_SELF;?>" method="POST">
+<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
 <input style="width: 500px" type="text" name="user" placeholder="Incolla il link ad un file CSV monocolonna con indirizzi" />
 <input type="submit" value="submit" onclick="test()" />
 </form>
 <br>
 <p>Puoi anche inserire un file GoogleSpreadsheet, ma prima devi fare "Pubblica sul web", copiare il link e sostituire output=html in output=csv</p>
 <p>Esempio: https://docs.google.com/spreadsheet/pub?key=0AoZ9HGSxyqvydEFpdmdEbHExMUxmeVBJZDNXLTcyNnc&output=csv</p>
+
+<?php if (isset($error)) : ?>
+  <p style="color: red;"> <?php print $error ?> </p>
+<?php endif; ?>
 
  </body>
 </html>
