@@ -16,8 +16,9 @@ while (!feof($file_handle)) {
 
 echo "<br>";
 
-
+// registrarsi su open.mapquestapi.com e inserire la propria key nella riga qui sotto
 $string="http://open.mapquestapi.com/geocoding/v1/batch?key=Fmjtd%7Cluur2la7n9%2C8w%3Do5-9a221u";
+
 $string=$string.$line1;
 $string=str_replace(' ','+',$string);
 $json = file_get_contents($string);
