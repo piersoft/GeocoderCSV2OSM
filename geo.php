@@ -10,18 +10,14 @@ function test(){
       $line = fgets($file_handle);
       $line1 = "&location=".$line;
       $array=array($line1); 
-      // echo $array[0];
-      
+     
       echo "<br>";
-      //$string= "&key=Fmjtd%7Cluur2la7n9%2C8w%3Do5-9a221u";
-      //echo $line.$string;
-      
+
       $string="http://open.mapquestapi.com/geocoding/v1/batch?key=Fmjtd%7Cluur2la7n9%2C8w%3Do5-9a221u";
       $string=$string.$line1;
       $string=str_replace(' ','+',$string);
       $json = file_get_contents($string);
-      //echo $string;
-      
+     
       $jsonArr = json_decode($json);
       
       $lat1 = $jsonArr->results[0]->locations[0]->latLng->lat;
@@ -29,9 +25,6 @@ function test(){
       
       echo $line.",".$lat1.",".$lon1;
       
-      //header("Location: http://open.mapquestapi.com/geocoding/v1/batch?".$string.$array[0]); 
-      
-      //echo $array[0]; 
     }
     fclose($file_handle);
   }
