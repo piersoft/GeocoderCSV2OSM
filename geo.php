@@ -1,36 +1,41 @@
 <?php
 
 function test(){
-  $url = $_POST['user'];
-  if filter_var($url, FILTER_VALIDATE_URL) {
-    echo "Sto aprendo ".$url." e dalla prima colonna con gli indirizzi effettuo un geocoding usando http://open.mapquestapi.com che interroga OpenStreetMap<br>";
-    $file_handle = fopen($url, "r");
-    $array=array(); 
-    while (!feof($file_handle)) {
-      $line = fgets($file_handle);
-      $line1 = "&location=".$line;
-      $array=array($line1); 
-     
-      echo "<br>";
+ $url = $_POST['user'];
+   if (filter_var($url, FILTER_VALIDATE_URL)) {
+  echo "Sto aprendo ". $url." e dalla prima colonna con gli indirizzi effettuo un geocoding usando http://open.mapquestapi.com che interroga OpenStreetMap<br>";
+$file_handle = fopen( $url, "r");
+$array=array(); 
+while (!feof($file_handle)) {
+  
 
-      $string="http://open.mapquestapi.com/geocoding/v1/batch?key=Fmjtd%7Cluur2la7n9%2C8w%3Do5-9a221u";
-      $string=$string.$line1;
-      $string=str_replace(' ','+',$string);
-      $json = file_get_contents($string);
-     
-      $jsonArr = json_decode($json);
-      
-      $lat1 = $jsonArr->results[0]->locations[0]->latLng->lat;
-      $lon1 = $jsonArr->results[0]->locations[0]->latLng->lng;
-      
-      echo $line.",".$lat1.",".$lon1;
-      
-    }
-    fclose($file_handle);
-  }
-}  
+ $line = fgets($file_handle);
+ $line1 = "&location=".$line;
+ $array=array($line1); 
 
 
+echo "<br>";
+
+
+$string="http://open.mapquestapi.com/geocoding/v1/batch?key=Fmjtd%7Cluur2la7n9%2C8w%3Do5-9a221u";
+$string=$string.$line1;
+$string=str_replace(' ','+',$string);
+$json = file_get_contents($string);
+//echo $string;
+
+$jsonArr = json_decode($json);
+
+$lat1 = $jsonArr->results[0]->locations[0]->latLng->lat;
+$lon1 = $jsonArr->results[0]->locations[0]->latLng->lng;
+
+echo $line.",".$lat1.",".$lon1;
+
+
+}
+
+fclose($file_handle);
+} 
+}    
 if(isset($_POST[user])){
 test();
 }
