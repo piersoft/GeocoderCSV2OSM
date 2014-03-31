@@ -38,7 +38,7 @@ function geocode($url) {
 if (isset($_POST['user'])){
   $url = filter_var($_POST['user'], FILTER_VALIDATE_URL);
   if ($url) {
-    geocode();
+    geocode($url);
   }
   else {
     $error = 'Sorry, this is not a valid url.';
