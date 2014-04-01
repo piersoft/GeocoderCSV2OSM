@@ -25,6 +25,7 @@ $f = fopen($file, "w");
   while (!feof($file_handle)) {
     $line = fgets($file_handle);
     $line=str_replace('\n','',$line);
+    $line=str_replace('/','',$line);
     $line1 = "&location=".$line;
     $array=array($line1);
     // echo $array[0];
@@ -48,8 +49,11 @@ $string=str_replace('  ','',$string);
     $lon1 = $jsonArr->results[0]->locations[0]->latLng->lng;
 
 $output= $line.",".$lat1.",".$lon1."<br>";
+if ($lat1==""){
+echo "<font color='red'>".$output."</font>";
+}else{
     echo $output;
-
+}
 $line2=str_replace("\n","\\n",htmlentities ($line));
 $line2=str_replace('\n','',$line2);
 $line2=str_replace('\r\n','',$line2);
@@ -237,7 +241,8 @@ if (isset($_POST['user'])){
 <input type="submit" value="submit" onclick="test()" />
 </form>
 <br>
-<p>Puoi anche inserire un file GoogleSpreadsheet, ma prima devi fare "Pubblica sul web", copiare il link e sostituire output=html in output=csv</p>
+<p>Geocoder di file csv monocolonna. Crea un file con gli indirizzi di cui vuoi le coordinate. Per un migliore geocoding inserisci l'indirizzo con questo formato:"via civico città nazione" esempio "via guglielmo oberdan 20 bologna italia".
+Puoi anche inserire un file GoogleSpreadsheet, ma prima devi fare "Pubblica sul web", copiare il link e sostituire output=html in output=csv</p>
 <p>Esempio: https://docs.google.com/spreadsheet/pub?key=0AoZ9HGSxyqvydEFpdmdEbHExMUxmeVBJZDNXLTcyNnc&output=csv</p>
 
 
