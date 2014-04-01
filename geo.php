@@ -25,7 +25,7 @@ $f = fopen($file, "w");
   while (!feof($file_handle)) {
     $line = fgets($file_handle);
     $line=str_replace('\n','',$line);
-    $line=str_replace('/','',$line);
+   // $line=str_replace('/','',$line);
     $line1 = "&location=".$line;
     $array=array($line1);
     // echo $array[0];
