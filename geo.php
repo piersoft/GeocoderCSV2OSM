@@ -281,7 +281,7 @@ Puoi anche inserire un file GoogleSpreadsheet, ma prima devi fare "Pubblica sul 
 <p>Esempio: https://docs.google.com/spreadsheet/pub?key=0AoZ9HGSxyqvydEFpdmdEbHExMUxmeVBJZDNXLTcyNnc&output=csv</p>
 <p>Lo script interrogherà OpenStreetMap tramite il batch di http://open.mapquestapi.com/ <br />
 
-La licenza è AGPL3 http://www.gnu.org/licenses/agpl-3.0.html tranne che per i files di terze parti che seguono le licenze dei singoli proprietari.</p>
+La licenza è <a href="https://www.gnu.org/licenses/agpl.txt">AGPL3</a> tranne che per i files di terze parti che seguono le licenze dei singoli proprietari.</p>
 <br>
 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
 <input style="width: 500px" type="text" name="vai" placeholder="Incolla il link ad un file CSV monocolonna con indirizzi" />
