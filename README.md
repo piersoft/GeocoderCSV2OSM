@@ -19,4 +19,6 @@ Si può usare anche GoogleSpreadsheet, ma prima devi fare "Pubblica sul web", co
 Lo script interrogherà OpenStreetMap tramite il batch di Open.Mapquest.com
 
 
-La licenza di OSM è la ODbl mentre quella di questo form è la GNU 3.0
+La licenza è AGPL3 http://www.gnu.org/licenses/agpl-3.0.html tranne che per i files di terze parti che seguono le licenze dei singoli proprietari.
+
+
