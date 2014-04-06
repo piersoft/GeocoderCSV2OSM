@@ -3,6 +3,11 @@ GeocoderCSV2OSM
 
 Piccolo script per ricavare da indirizzi le coordinate geografiche usando come geocoder OpenStreetMap
 
+
+1.2
+Inserita possibbilità di upload file monocolonna csv con indirizzi
+Creare sul server nella dir di geo.php 2 sotto dir: test/upload e rendere upload in scrittura 777
+
 1.1
 Inserito il download dei file geojson, json e csv 
 Inserita mappa OSM che visualizza subito gli indirizzi trovati
