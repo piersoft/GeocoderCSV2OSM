@@ -25,7 +25,7 @@ $f = fopen($file, "w");
   while (!feof($file_handle)) {
     $line = fgets($file_handle);
     $line=str_replace('\n','',$line);
-    $line=str_replace('/','',$line);
+   // $line=str_replace('/','',$line);
     $line1 = "&location=".$line;
     $array=array($line1);
     // echo $array[0];
@@ -91,7 +91,7 @@ fclose($f);
 fclose($fp);
 fclose($fpj);
   fclose($file_handle);
-echo "<br><br>Sto aprendo ".$url." e dalla prima colonna con gli indirizzi effettuo un geocoding usando http://open.mapquestapi.com che interroga OpenStreetMap<br>";
+//echo "<br><br>Sto aprendo ".$url." e dalla prima colonna con gli indirizzi effettuo un geocoding usando http://open.mapquestapi.com che interroga OpenStreetMap<br>";
 ?>
 <br><a href="file.csv">Download CSV</a><br>
 <a href="file.json">Download Json MapQuest</a><br>
@@ -217,8 +217,8 @@ map.fitBounds(markers.getBounds());
 }
 
 
-if (isset($_POST['user'])){
-  $url = filter_var($_POST['user'], FILTER_VALIDATE_URL);
+if (isset($_POST['vai'])){
+  $url = filter_var($_POST['vai'], FILTER_VALIDATE_URL);
   if ($url) {
     geocode($url);
   }
@@ -227,24 +227,80 @@ if (isset($_POST['user'])){
   }
 }
 
+
+if ( isset($_POST["invia"]) ) {
+
+   if ( isset($_FILES["file"])) {
+
+            //if there was an error uploading the file
+        if ($_FILES["file"]["error"] > 0) {
+            echo "Return Code: " . $_FILES["file"]["error"] . "<br />";
+
+        }
+        else {
+                 //Print file details
+             echo "Upload: " . $_FILES["file"]["name"] . "<br />";
+             echo "Type: " . $_FILES["file"]["type"] . "<br />";
+             echo "Size: " . ($_FILES["file"]["size"] / 1024) . " Kb<br />";
+echo "<br />";
+            // echo "Temp file: " . $_FILES["file"]["tmp_name"] . "<br />";
+
+                 //if file already exists
+             if (file_exists("test/upload/" . $_FILES["file"]["name"])) {
+            echo $_FILES["file"]["name"] . " already exists. ";
+             }
+             else {
+                    //Store file in directory "upload" with the name of "uploaded_file.csv"
+            $storagename = "uploaded_file.csv";
+            move_uploaded_file($_FILES["file"]["tmp_name"], "test/upload/" . $storagename);
+         //   echo "Stored in: " . "test/upload/" . $_FILES["file"]["name"] . "<br /><br/>";
+
+ $url = "test/upload/uploaded_file.csv";
+//echo $url;
+geocode($url);
+
+            }
+        }
+     } else {
+             echo "No file selected <br />";
+     }
+}
+
+
 ?>
 <html>
     <head>
-        <title>Geocoding OpenStreetMap da file CSV</title>
+        <title>Geocoding OpenStreetMap from CSV file</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 </head>
     <body>
-<br>
-<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
-<input style="width: 500px" type="text" name="user" placeholder="Incolla il link ad un file CSV monocolonna con indirizzi" />
-<input type="submit" value="submit" onclick="test()" />
-</form>
-<br>
-<p>Geocoder di file csv monocolonna. Crea un file con gli indirizzi di cui vuoi le coordinate. Per un migliore geocoding inserisci l'indirizzo con questo formato:"via civico città nazione" esempio "via guglielmo oberdan 20 bologna italia".
-Puoi anche inserire un file GoogleSpreadsheet, ma prima devi fare "Pubblica sul web", copiare il link e sostituire output=html in output=csv</p>
+
+<p>Geocoder di file csv di una sola colonna con indirizzi. Crea un file con gli indirizzi di cui vuoi le coordinate.</p><p> Per un migliore geocoding inserisci l'indirizzo con questo formato:"via civico città nazione" esempio "via guglielmo oberdan 20 bologna italia".<br />
+Puoi anche inserire un file GoogleSpreadsheet, ma prima devi fare "Pubblica sul web", copiare il link e sostituire output=html in output=csv.</p>
 <p>Esempio: https://docs.google.com/spreadsheet/pub?key=0AoZ9HGSxyqvydEFpdmdEbHExMUxmeVBJZDNXLTcyNnc&output=csv</p>
 
+<br>
+<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
+<input style="width: 500px" type="text" name="vai" placeholder="Incolla il link ad un file CSV monocolonna con indirizzi" />
+<input type="submit" value="vai" onclick="test()" />
+</form>
+
+
+<table width="600">
+<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" enctype="multipart/form-data">
+
+<tr>
+<td width="60%">Seleziona un file di testo/csv di una sola colonna con indirizzi</td>
+</tr>
+<tr>
+<td width="40%"><input type="file" name="file" id="file" />
+<input type="submit" name="invia" /></td>
+
+</tr>
+
+</form>
+</table>
 
 <?php if (isset($error)) : ?>
   <p style="color: red;"> <?php print $error ?> </p>
