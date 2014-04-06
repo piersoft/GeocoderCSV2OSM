@@ -17,3 +17,6 @@ Evidenziato con colore rosso il geocode non effettuato
 Incollare nel form l'URL ad un file CSV monocolonna, con indirizzi per riga.
 Si può usare anche GoogleSpreadsheet, ma prima devi fare "Pubblica sul web", copiare il link e sostituire output=html in output=csv.
 Lo script interrogherà OpenStreetMap tramite il batch di Open.Mapquest.com
+
+
+La licenza di OSM è la ODbl mentre quella di questo form è la GNU 3.0
