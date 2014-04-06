@@ -282,6 +282,8 @@ Puoi anche inserire un file GoogleSpreadsheet, ma prima devi fare "Pubblica sul 
 <p>Lo script interrogherà OpenStreetMap tramite il batch di http://open.mapquestapi.com/ <br />
 
 La licenza è <a href="https://www.gnu.org/licenses/agpl.txt">AGPL3</a> tranne che per i files di terze parti che seguono le licenze dei singoli proprietari.</p>
+<p>Il sorgente è su <a href="https://github.com/piersoft/GeocoderCSV2OSM">GITHUB</a></p>
+<p>Realizzato da <a href="http://www.twitter.com/piersoft">@Piersoft</a></p>
 <br>
 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
 <input style="width: 500px" type="text" name="vai" placeholder="Incolla il link ad un file CSV monocolonna con indirizzi" />
