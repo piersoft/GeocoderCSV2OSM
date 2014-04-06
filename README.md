@@ -21,6 +21,6 @@ Lo script interrogherà OpenStreetMap tramite il batch di http://open.mapquestap
 
 
 
-La licenza è AGPL3 http://www.gnu.org/licenses/agpl-3.0.html tranne che per i files di terze parti che seguono le licenze dei singoli proprietari.
+La licenza è AGPL3 https://www.gnu.org/licenses/agpl.txt tranne che per i files di terze parti che seguono le licenze dei singoli proprietari.
 
 
