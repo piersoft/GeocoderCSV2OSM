@@ -13,7 +13,6 @@ $f = fopen($file, "w");
   $array=array();
 
 
-
    $geojson = array(
     'type'      => 'FeatureCollection',
     'features'  => array()
@@ -23,22 +22,24 @@ $f = fopen($file, "w");
 
 
   while (!feof($file_handle)) {
+$row++;
     $line = fgets($file_handle);
-    $line=str_replace('\n','',$line);
+	$data_as_array = explode(',',  $line);
+   // $line=str_replace('\n','',$line);
    // $line=str_replace('/','',$line);
-    $line1 = "&location=".$line;
+    $line1 = "&location=".$data_as_array[0];
     $array=array($line1);
     // echo $array[0];
 
    
     //$string= "&key=Fmjtd%7Cluur2la7n9%2C8w%3Do5-9a221u";
     //echo $line.$string;
-
+if($row > 1){ 
     $string="http://open.mapquestapi.com/geocoding/v1/batch?key=Fmjtd%7Cluur2la7n9%2C8w%3Do5-9a221u";
     $string=$string.$line1;
     $string=str_replace(' ','+',$string);
 
-$string=str_replace('  ','',$string);
+    $string=str_replace('  ','',$string);
     $json = file_get_contents($string);
     //echo $string;
 
@@ -80,6 +81,7 @@ fwrite($fp,$page);
 
 
   }
+}
 fwrite($fpj,$json);
 $json=json_encode($geojson);
 
@@ -90,6 +92,7 @@ fclose($f);
 
 fclose($fp);
 fclose($fpj);
+
   fclose($file_handle);
 //echo "<br><br>Sto aprendo ".$url." e dalla prima colonna con gli indirizzi effettuo un geocoding usando http://open.mapquestapi.com che interroga OpenStreetMap<br>";
 ?>
@@ -276,8 +279,8 @@ geocode($url);
 </head>
     <body>
 
-<p>Geocoder di file csv di una sola colonna con indirizzi. Crea un file con gli indirizzi di cui vuoi le coordinate.</p><p> Per un migliore geocoding inserisci l'indirizzo con questo formato:"via civico città nazione" esempio "via guglielmo oberdan 20 bologna italia".<br />
-Puoi anche inserire un file GoogleSpreadsheet, ma prima devi fare "Pubblica sul web", copiare il link e sostituire output=html in output=csv.</p>
+<p>Geocoder di file csv da una colonna con indirizzi. Gli indirizzi devono essere nella PRIMA COLONNA del file CSV.</p><p> Per un migliore geocoding inserisci l'indirizzo con questo formato:"via civico città nazione" esempio "via guglielmo oberdan 20 bologna italia".<br />
+PS: Puoi anche inserire un file GoogleSpreadsheet, ma prima devi fare "Pubblica sul web", copiare il link e sostituire output=html in output=csv.</p>
 <p>Esempio: https://docs.google.com/spreadsheet/pub?key=0AoZ9HGSxyqvydEFpdmdEbHExMUxmeVBJZDNXLTcyNnc&output=csv</p>
 <p>Lo script interrogherà OpenStreetMap tramite il batch di http://open.mapquestapi.com/ <br />
 
@@ -295,7 +298,7 @@ La licenza è <a href="https://www.gnu.org/licenses/agpl.txt">AGPL3</a> tranne c
 <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" enctype="multipart/form-data">
 
 <tr>
-<td width="60%">Seleziona un file di testo/csv di una sola colonna con indirizzi</td>
+<td width="60%">Seleziona un file di testo/csv con gli indirizzi nella prima colonna</td>
 </tr>
 <tr>
 <td width="40%"><input type="file" name="file" id="file" />
